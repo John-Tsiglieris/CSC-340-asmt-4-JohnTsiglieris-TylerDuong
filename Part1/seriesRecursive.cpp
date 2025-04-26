@@ -4,6 +4,10 @@
 //TODO: add your documentation here
 // TO DO: implement the recursive series function
 //      Hint: it should return a long long (integers)
+long long recurse(int n) {
+    
+    return 0;
+}
 
 
 int main(int argc, char* argv[]) {
