@@ -2,33 +2,30 @@
 #include <cstdlib> 
 
 /**
-* COMPLETE THE DOCUMENTATION
-*/
-long long recurse(int n) {
-    // Define base cases
-    // int result;
-    // If n > 2, result = recurse(n − 1) + 2 + recurse(n − 2) + 4 × J(n − 3)
-    // idk how to end the recursion when we get what we want
+ * @brief Finds value of J(n) where J(0) = 0, J(1) = 1, J(2) = 2. If n > 2
+ * 
+ * @param n Input number
+ * @return 
+ */
+long long seriesRecursive(int n) {
+    try {
+        // Define base cases
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        } else if (n == 2) {
+            return 1;
+        } else if (n > 2) {
+            return (seriesRecursive(n - 1) + 2) * (seriesRecursive(n - 2) + 4) * seriesRecursive(n - 3);
+        } else {
+            throw "n must be a valid integer!";
+        }
+    } catch (const char* e) {
+        std::cout << "Caught exception: " << e << std::endl;
+    }
     return 0;
 }
-
-// EXAMPLE RECURSIVE FUNCTION TO COMPUTE FACTORIALS
-// Define a function to calculate factorial
-// recursively
-/*
-long long factorial(int n)
-{
-    // Base case - If n is 0 or 1, return 1
-    if (n == 0 || n == 1) {
-        return 1;
-    }
-    // Recursive case - Return n multiplied by
-    // factorial of (n-1)
-
-    return n * factorial(n - 1);
-}
-*/
-
 
 int main(int argc, char* argv[]) {
     // Read n from command line argument
