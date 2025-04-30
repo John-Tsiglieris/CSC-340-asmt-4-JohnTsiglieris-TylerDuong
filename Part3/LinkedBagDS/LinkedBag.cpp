@@ -18,7 +18,8 @@ void LinkedBag<ItemType>::sort(int method){
 	if (method == 0){
 		// update this to add the head of the linkedBag
 		std::cout << "DEGUG: about to call mergeSort()"	<< std::endl;
-		mergeSort(this->headPtr);
+		//mergeSort(this->headPtr);
+		this->headPtr = mergeSort(this->headPtr);
 	}else{
 		// for EXTRA CREDIT, update function call if you change the prototype.
 		// If you do NOT implement quickSort, NO action needed here
@@ -29,43 +30,21 @@ void LinkedBag<ItemType>::sort(int method){
 /*
 template<class ItemType>//const ItemType& newEntry
 Node<ItemType>* LinkedBag<ItemType>::findMiddle(const Node<ItemType>* node){
-	//if (aBag->head == nullptr) {
-    	//return aBag->head;
-	//}
+	if (node == nullptr || node->getNext() == nullptr) {
+		std::cout << "nullptr" << std::endl;
+		return nullptr;
+	}
+	Node<ItemType>* slow = node;
+	Node<ItemType>* fast = node->getNext();
 
-    int size = this->itemCount;
-    int middle = size / 2;
+	while (fast != nullptr && fast->getNext() != nullptr) {
+		fast = fast->getNext()->getNext();
+		slow = slow->getNext();
+	}
 
-    Node<ItemType>* current = headPtr; // start at the head
-    int i = 1; // NOT zero indexing
-
-    while (i < middle && current != nullptr) {
-        current = current->getNext();
-        i++;
-    }
-
-    return current;
-}
-*/
-/*
-template<class ItemType>
-Node<ItemType>* LinkedBag<ItemType>::merge(Node<ItemType>* left, Node<ItemType>* right){
-	if (!left) return right;
-    if (!right) return left;
-
-    Node<ItemType>* result = nullptr;
-
-	// left and right should be the beginning of their respective parts of linkedBag
-	
-    if (left->getItem() <= right->getItem()) {
-        result = left;
-        result->setNext(merge(left->getNext(), right));
-    } else {
-        result = right;
-        result->setNext(merge(left, right->getNext()));
-    }
-
-    return result;
+	Node<ItemType>* result = slow->getNext();
+	slow->setNext(nullptr); // separate the end of first half from second half
+	return result; // returns first node of second half
 }
 */
 /*

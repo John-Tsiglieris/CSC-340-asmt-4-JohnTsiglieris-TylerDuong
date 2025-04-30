@@ -33,71 +33,52 @@ class LinkedBag : public BagInterface<ItemType>{
 		//Node<ItemType>* findMiddle(const Node<ItemType>* node); // mergesort helper function
 		//Node<ItemType>* merge(Node<ItemType>* left, Node<ItemType>* right); // mergesort helper function
 		//Node<ItemType>* mergeSort(Node<ItemType>* head);
-		Node<ItemType>* findMiddle(const Node<ItemType>* node){
-			//if (node == std::nullptr) {
-				//std::cout << 'nullptr' << std::endl;
-			//}
-			std::cout << "DEGUG: findMiddle called"	<< std::endl;
 
-			int size = this->itemCount;
-			int middle = size / 2;
-
-			Node<ItemType>* current = headPtr; // start at the head
-			int i = 1; // NOT zero indexing
-
-			while (i < middle && current != nullptr) {
-				current = current->getNext();
-				i++;
+		// Defining MergeSort functions here because it was giving us problems in the cpp file
+		Node<ItemType>* split(Node<ItemType>* node){
+			if (node == nullptr || node->getNext() == nullptr) {
+				std::cout << "nullptr" << std::endl;
+				return nullptr;
 			}
-			std::cout << "DEGUG: current.item == " << current->getItem() << std::endl;
-			return current;
+			Node<ItemType>* slow = node;
+			Node<ItemType>* fast = node->getNext();
+
+			while (fast != nullptr && fast->getNext() != nullptr) {
+				fast = fast->getNext()->getNext();
+				slow = slow->getNext();
+			}
+
+			Node<ItemType>* result = slow->getNext();
+			slow->setNext(nullptr); // separate the end of first half from second half
+			return result; // returns first node of second half
 		}
 
 		Node<ItemType>* merge(Node<ItemType>* left, Node<ItemType>* right){
-			std::cout << "DEGUG: merge() called"	<< std::endl;
-			std::cout << "DEGUG: left.item == " << left->getItem() << std::endl;
-			std::cout << "DEGUG: right.item == " << right->getItem() << std::endl;
-			if (!left) return right;
-			if (!right) return left;
-
-			Node<ItemType>* result = nullptr;
+			if (left == nullptr) return right;
+			if (right = nullptr) return left;
 
 			// left and right should be the beginning of their respective parts of linkedBag
-			
 			if (left->getItem() <= right->getItem()) {
-				result = left;
-				result->setNext(merge(left->getNext(), right));
+				left->setNext(merge(left->getNext(), right));
+				return left;
 			} else {
-				result = right;
-				result->setNext(merge(left, right->getNext()));
+				right->setNext(merge(left,right->getNext()));
+				return right;
 			}
-
-			return result;
 		}
 
 		// Our own implementation of merge sort in the LinkedBag data structure
 		Node<ItemType>* mergeSort(Node<ItemType>* head){
-			std::cout << "DEGUG: mergeSort() called" << std::endl;
-			if (!head->getNext()) {
+			if (head == nullptr || head->getNext() == nullptr) {
 				return head;
 			}
-			std::cout << "DEGUG: finding Middle"	<< std::endl;
-			// Find the middle
-			Node<ItemType>* middle = findMiddle(head);
-			Node<ItemType>* nextOfMiddle = middle->getNext();
-			middle->setNext(nullptr);
-			std::cout << "DEGUG: middle.item == " << middle->getItem() << std::endl;
-			std::cout << "DEGUG: nextOfMiddle.item == " << nextOfMiddle->getItem() << std::endl;
 
-			// create a left and right linkedBag
+			// Find the start of second half
+			Node<ItemType>* second = split(head); // split and return beginning of latter halg
 
 			// Recursively sort the two halves
-			std::cout << "DEGUG: calling mergeSort on left (head): " << head->getItem() << std::endl;
 			Node<ItemType>* left = mergeSort(head);
-			std::cout << "DEGUG: left.item == " << left->getItem() << std::endl;
-			std::cout << "DEGUG: calling mergeSort on right (nextofmiddle): " << nextOfMiddle->getItem() << std::endl;
-			Node<ItemType>* right = mergeSort(nextOfMiddle);
-			std::cout << "DEGUG: right.item == " << right->getItem() << std::endl;
+			Node<ItemType>* right = mergeSort(second);
 
 			// Merge the sorted halves
 			return merge(left, right);
