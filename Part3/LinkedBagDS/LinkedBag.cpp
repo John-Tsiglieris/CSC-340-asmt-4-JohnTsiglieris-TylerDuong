@@ -12,25 +12,86 @@
 //   SORTING ----------------------------------------------------
 template<class ItemType>
 void LinkedBag<ItemType>::sort(int method){
+	std::cout << "DEGUG: sort() called"	<< std::endl;
 	if (itemCount <= 1)
 		return;
-	
 	if (method == 0){
-		// update function call if you change the prototype. 
-		mergeSort();
+		// update this to add the head of the linkedBag
+		std::cout << "DEGUG: about to call mergeSort()"	<< std::endl;
+		mergeSort(this->headPtr);
 	}else{
 		// for EXTRA CREDIT, update function call if you change the prototype.
 		// If you do NOT implement quickSort, NO action needed here
 		quickSort(); 
 	}
+	
 }
+/*
+template<class ItemType>//const ItemType& newEntry
+Node<ItemType>* LinkedBag<ItemType>::findMiddle(const Node<ItemType>* node){
+	//if (aBag->head == nullptr) {
+    	//return aBag->head;
+	//}
 
-//TO DO: implement merge sort and change its prototype if you need to.
+    int size = this->itemCount;
+    int middle = size / 2;
+
+    Node<ItemType>* current = headPtr; // start at the head
+    int i = 1; // NOT zero indexing
+
+    while (i < middle && current != nullptr) {
+        current = current->getNext();
+        i++;
+    }
+
+    return current;
+}
+*/
+/*
 template<class ItemType>
-void LinkedBag<ItemType>::mergeSort(){
+Node<ItemType>* LinkedBag<ItemType>::merge(Node<ItemType>* left, Node<ItemType>* right){
+	if (!left) return right;
+    if (!right) return left;
 
+    Node<ItemType>* result = nullptr;
+
+	// left and right should be the beginning of their respective parts of linkedBag
+	
+    if (left->getItem() <= right->getItem()) {
+        result = left;
+        result->setNext(merge(left->getNext(), right));
+    } else {
+        result = right;
+        result->setNext(merge(left, right->getNext()));
+    }
+
+    return result;
+}
+*/
+/*
+// Our own implementation of merge sort in the LinkedBag data structure
+template<class ItemType>
+Node<ItemType>* LinkedBag<ItemType>::mergeSort(Node<ItemType>* head){
+    if (!head->getNext()) {
+        return head;
+    }
+
+    // Find the middle
+    Node<ItemType>* middle = findMiddle(head);
+    Node<ItemType>* nextOfMiddle = middle->getNext();
+    middle->setNext(nullptr);
+
+	// create a left and right linkedBag
+
+    // Recursively sort the two halves
+    Node<ItemType>* left = mergeSort(head);
+    Node<ItemType>* right = mergeSort(nextOfMiddle);
+
+    // Merge the sorted halves
+    return merge(left, right);
 
 }
+*/
 
 //Extra Credit -- TO DO: implement quick sort and change its prototype 
 //                       if you need to.
